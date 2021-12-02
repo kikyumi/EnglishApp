@@ -100,19 +100,48 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let indexPath = self.tableView.indexPathForSelectedRow
             registerViewController.titleRecieved = postArray[indexPath!.row].title!
             registerViewController.memoRecieved = postArray[indexPath!.row].memo!
+            registerViewController.idRecieved = postArray[indexPath!.row].id
+            
         }
     }
     
     
     
     
-    // セルが削除が可能なことを伝えるメソッド
+    // セルが削除可能なことを伝えるメソッド
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath)-> UITableViewCell.EditingStyle {
         return .delete
     }
     
     // Delete ボタンが押された時に呼ばれるメソッド
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // データベースから削除する
+            //削除する対象を定義
+            let id = postArray[indexPath.row].id
+            let deleteRef = Firestore.firestore().collection("posts").document(id)
+            let deleteImageRef = Storage.storage().reference().child("images").child(deleteRef.documentID + ".jpg")
+            
+            deleteRef.delete() { err in
+                if let err = err {
+                    print("DEBUG_PRINT:Documentの削除に失敗しました: \(err)")
+                } else {
+                    print("DEBUG_PRINT:Documentの削除に成功しました")
+                }
+            }
+            
+            //画像があれば、Strageから画像を削除する
+            if deleteImageRef != nil{
+                deleteImageRef.delete { error in
+                    if let error = error {
+                        print("DEBUG_PRINT:Storageから画像削除に失敗しました: \(error)")
+                    } else {
+                        print("DEBUG_PRINT:Storageから画像削除に成功しました")
+                    }
+                }
+            }
+            tableView.reloadData()
+        }
     }
     
     //以下、サーチバー関連
@@ -145,45 +174,45 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let postsRef = Firestore.firestore().collection("posts")
         //サーチテキストが空欄なら、検索結果に全て表示
         if searchText == "" {
-            listener = postsRef.order(by: "date", descending: true).addSnapshotListener() { (querySnapshot, error) in
+           listener = postsRef.order(by: "date", descending: true).addSnapshotListener(){ (querySnapshot, error) in
                 if let error = error {
                     print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
                     return
                 }
                 self.postArray = querySnapshot!.documents.map { document in
                     let postData = PostData(document: document)
+                    print("DEBUG_PRINT: 文字無しの検索結果を反映しました。")
                     return postData
                 }
+            self.tableView.reloadData()
             }
-            //サーチテキストに文字が入力されたら、それを含むpostDataを返す
         }else{
-            postsRef.whereField("title", arrayContains:"\(searchText)").getDocuments(){ (querySnapshot, error) in
+            //サーチテキストに文字が入力されたら、それを含むpostDataを返す
+            postsRef.whereField("title", in:["\(searchText)"]).getDocuments{ (querySnapshot, error) in
                 if let error = error {
                     print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
                     return
                 }else{
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        self.postArray = querySnapshot!.documents.map { document in
-                            let postData = PostData(document: document)
-                            return postData
-                        }
+                    print("DEBUG_PRINT: \(querySnapshot!.documents.count)個のドキュメントを取得")
+                    self.postArray = querySnapshot!.documents.map { document in
+                        let postData = PostData(document: document)
+                        print("DEBUG_PRINT: 文字ありの検索結果を反映しました。")
+                        return postData
                     }
+                    self.tableView.reloadData()
                 }
             }
         }
-        tableView.reloadData()
+        
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
+
+/*
+ // MARK: - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+ // Get the new view controller using segue.destination.
+ // Pass the selected object to the new view controller.
+ }
+ */

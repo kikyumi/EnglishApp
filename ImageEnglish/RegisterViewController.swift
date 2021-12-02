@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FirebaseStorageUI
 import SVProgressHUD
 
 class RegisterViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -18,29 +19,41 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     //画面遷移時に値を受け取る箱を用意
     var titleRecieved = ""
     var memoRecieved = ""
-    var imageRecieved: UIImage!
+    var idRecieved:String?
+    
+    // 投稿データの保存場所を定義する
+    let postRef = Firestore.firestore().collection("posts").document()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 画面遷移時の値渡し設定
-        titleText.text = titleRecieved
-        memoText.text = memoRecieved
-        imageView.image = imageRecieved
         //メモ欄のデザイン
         memoText.layer.borderWidth = 0.3
         memoText.layer.borderColor = UIColor.gray.cgColor
         memoText.layer.cornerRadius = 9
-        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // 画面遷移時の値渡し設定
+        titleText.text = titleRecieved
+        memoText.text = memoRecieved
+        if idRecieved != nil{
+            let postRefRecieved = Firestore.firestore().collection("posts").document(idRecieved!)
+            let imageRef = Storage.storage().reference().child("images").child(postRefRecieved.documentID + ".jpg")
+            imageView.sd_setImage(with: imageRef)
+        }
+    }
+    
+    
+    
     
     //weblioボタンのクリック
     @IBAction func weblioBtnClick(_ sender: Any) {
         //外部ブラウザでURLを開く
-        let searchText = titleText.text
-        if searchText == nil{
+        if titleText.text == nil{
             return
         }else{
-            let url = NSURL(string: "https://ejje.weblio.jp/content/" + searchText!)
+            let url = NSURL(string: "https://ejje.weblio.jp/content/" + titleText.text!)
             if UIApplication.shared.canOpenURL(url! as URL){
                 UIApplication.shared.open(url! as URL, options: [:], completionHandler: nil)
             }
@@ -51,11 +64,10 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     //イメージ検索ボタンのクリック
     @IBAction func imgSearchClick(_ sender: Any) {
         //外部ブラウザでURLを開く
-        let searchText = titleText.text
-        if searchText == nil{
+        if titleText.text == nil{
             return
         }else{
-            let url = NSURL(string: "https://www.google.com/search?q=" + searchText! + "&tbm=isch")
+            let url = NSURL(string: "https://www.google.com/search?q=" + titleText.text! + "&tbm=isch")
             if UIApplication.shared.canOpenURL(url! as URL){
                 UIApplication.shared.open(url! as URL, options: [:], completionHandler: nil)
             }
@@ -88,61 +100,77 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             self.dismiss(animated: true, completion: nil)
         }
     }
-
+    
     
     //Saveボタンのクリック
     @IBAction func saveBtnClick(_ sender: Any) {
-        // 投稿データの保存場所を定義する
-        let postRef = Firestore.firestore().collection("posts").document()
         //投稿データ（辞書形式）のKeyとValueを定義する
         let postDic = [
             "title": self.titleText.text!,
             "memo": self.memoText.text!,
             "date": FieldValue.serverTimestamp(),
         ] as [String : Any]
-        //画像があれば、StrageとFireStoreにデータを保存する
-        if imageView.image != nil{
-            // 画像をJPEG形式に変換する
-            let imageData = imageView.image?.jpegData(compressionQuality: 0.75)
-            // 画像データの保存場所を定義する
-            let imageRef = Storage.storage().reference().child("images").child(postRef.documentID + ".jpg")
-            // HUDで投稿処理中の表示を開始
-            SVProgressHUD.show()
-            // Storageに画像をアップロードする
-            let metadata = StorageMetadata()
-            metadata.contentType = "image/jpeg"
-            imageRef.putData(imageData!, metadata: metadata) { (metadata, error) in
-                if error != nil {
-                    // 画像のアップロード失敗
-                    print(error!)
-                    SVProgressHUD.showError(withStatus: "保存に失敗しました")
-                    // 投稿処理をキャンセルし、先頭画面に戻る
-                    UIApplication.shared.windows.first{ $0.isKeyWindow }?.rootViewController?.dismiss(animated: true, completion: nil)
-                    return
+        
+        //■【新規作成】postRef以下に、該当するid(画面遷移で渡されたidRecieved)のドキュメントがない場合
+        if idRecieved == nil{
+            //画像があれば、Strageに保存する
+            if imageView.image != nil{
+                // 画像をJPEG形式に変換する
+                let imageData = imageView.image?.jpegData(compressionQuality: 0.75)
+                // 画像データの保存場所を定義する
+                let imageRef = Storage.storage().reference().child("images").child(postRef.documentID + ".jpg")
+                // HUDで投稿処理中の表示を開始
+                SVProgressHUD.show()
+                // Storageに画像をアップロードする
+                let metadata = StorageMetadata()
+                metadata.contentType = "image/jpeg"
+                imageRef.putData(imageData!, metadata: metadata) { (metadata, error) in
+                    if error != nil {
+                        // 画像のアップロード失敗
+                        print(error!)
+                        SVProgressHUD.showError(withStatus: "保存に失敗しました")
+                        // 投稿処理をキャンセルし、先頭画面に戻る
+                        self.dismiss(animated: true, completion: nil)
+                        return
+                    }
+                    print("DEBUG_PRINT:Storageへ画像保存に成功しました")
                 }
-                // FireStoreにデータを保存する
-                postRef.setData(postDic)
             }
-        }else{
-            // 画像がなければ、FireStoreにデータを保存するだけ
+            // FireStoreにデータを保存する
             postRef.setData(postDic)
+        }else{
+            //■【上書き更新】postRef以下に、該当するid(画面遷移で渡されたidRecieved)のドキュメントがある場合
+            //画像があれば、Strageを更新する
+            if imageView.image != nil{
+                // 画像をJPEG形式に変換する
+                let imageData = imageView.image?.jpegData(compressionQuality: 0.75)
+                // 画像データの保存場所を呼び出す
+                let postRefRecieved = Firestore.firestore().collection("posts").document(idRecieved!)
+                let imageRef = Storage.storage().reference().child("images").child(postRefRecieved.documentID + ".jpg")
+                // HUDで投稿処理中の表示を開始
+                SVProgressHUD.show()
+                // Storageに画像をアップロードする
+                let metadata = StorageMetadata()
+                metadata.contentType = "image/jpeg"
+                imageRef.putData(imageData!, metadata: metadata) { (metadata, error) in
+                    if error != nil {
+                        // 画像のアップロード失敗
+                        print(error!)
+                        SVProgressHUD.showError(withStatus: "保存に失敗しました")
+                        // 投稿処理をキャンセルし、先頭画面に戻る
+                        self.dismiss(animated: true, completion: nil)
+                        return
+                    }
+                    print("DEBUG_PRINT:Storageへ画像更新に成功しました")
+                }
+            }
+            // FireStoreにデータを保存する
+            Firestore.firestore().collection("posts").document(self.idRecieved!).updateData(postDic)
         }
         // HUDで投稿完了を表示する
         SVProgressHUD.showSuccess(withStatus: "保存しました")
         // 投稿処理が完了したので先頭画面に戻る
-        UIApplication.shared.windows.first{ $0.isKeyWindow }?.rootViewController?.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
-    
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

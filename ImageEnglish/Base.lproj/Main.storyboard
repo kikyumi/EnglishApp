@@ -106,7 +106,7 @@
         <!--Register View Controller-->
         <scene sceneID="ZNC-xC-JrF">
             <objects>
-                <viewController storyboardIdentifier="Register" id="Bbe-D2-Iv0" customClass="RegisterViewController" customModule="ImageEnglish" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Register" modalPresentationStyle="fullScreen" id="Bbe-D2-Iv0" customClass="RegisterViewController" customModule="ImageEnglish" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="c7e-C5-DLH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
