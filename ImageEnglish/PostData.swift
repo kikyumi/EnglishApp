@@ -6,6 +6,7 @@ class PostData: NSObject {
     var title: String?
     var memo: String?
     var date: Date?
+    var isArchived: Bool? = false
 
     init(document: QueryDocumentSnapshot) {
         self.id = document.documentID
@@ -15,5 +16,7 @@ class PostData: NSObject {
         
         let timestamp = postDic["date"] as? Timestamp
         self.date = timestamp?.dateValue()
+        
+        self.isArchived = postDic["isArchived"] as? Bool
     }
 }

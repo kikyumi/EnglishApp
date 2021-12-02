@@ -20,6 +20,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var postArray: [PostData] = []
     // Firestoreのリスナー
     var listener: ListenerRegistration?
+    //Firestoreの投稿データの格納場所
+    let postsRef = Firestore.firestore().collection("posts")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,8 +52,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }else{
             //currentUserが存在する場合（＝ログイン済みの場合）、listenerを登録して投稿データの更新を監視する
-            let postsRef = Firestore.firestore().collection("posts").order(by: "date", descending: true)
-            listener = postsRef.addSnapshotListener() { (querySnapshot, error) in
+            listener = postsRef.order(by: "date", descending: true).addSnapshotListener() { (querySnapshot, error) in
                 if let error = error {
                     print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
                     return
@@ -108,40 +109,38 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
-    // セルが削除可能なことを伝えるメソッド
+    // セルが削除不可能なことを伝えるメソッド
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath)-> UITableViewCell.EditingStyle {
-        return .delete
+        return .none
     }
     
-    // Delete ボタンが押された時に呼ばれるメソッド
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // データベースから削除する
-            //削除する対象を定義
-            let id = postArray[indexPath.row].id
-            let deleteRef = Firestore.firestore().collection("posts").document(id)
-            let deleteImageRef = Storage.storage().reference().child("images").child(deleteRef.documentID + ".jpg")
-            
-            deleteRef.delete() { err in
-                if let err = err {
-                    print("DEBUG_PRINT:Documentの削除に失敗しました: \(err)")
-                } else {
-                    print("DEBUG_PRINT:Documentの削除に成功しました")
+    
+    //セルのスワイプ時に呼ばれるメソッド（アーカイブ用）
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        // 編集処理
+            let archiveAction = UIContextualAction(style: .normal, title: "覚えた") { (action, view, completionHandler) in
+              // 編集処理を記述
+                let postData = self.postArray[indexPath.row]
+                var updateValue: Bool
+                //まだアーカイブされてなければ、isArchivedをtrueにする
+                if postData.isArchived == false {
+                    updateValue = true
+                    print("アーカイブをtrueに")
+                }else{
+                    //既にアーカイブされていたら、isArchivedをfalseにする
+                    updateValue = false
+                    print("アーカイブをfalseに")
                 }
+               //更新データをFirebaseに書き込む
+                self.postsRef.document(postData.id).updateData(["isArchived": updateValue])
+            // 実行結果に関わらず記述
+            completionHandler(true)
             }
-            
-            //画像があれば、Strageから画像を削除する
-            if deleteImageRef != nil{
-                deleteImageRef.delete { error in
-                    if let error = error {
-                        print("DEBUG_PRINT:Storageから画像削除に失敗しました: \(error)")
-                    } else {
-                        print("DEBUG_PRINT:Storageから画像削除に成功しました")
-                    }
-                }
-            }
-            tableView.reloadData()
-        }
+        //アーカイブボタンの色と画像
+        archiveAction.backgroundColor = UIColor.lightGray
+        archiveAction.image = UIImage(systemName: "archivebox")
+        // 定義したアクションをセット
+        return UISwipeActionsConfiguration(actions: [archiveAction])
     }
     
     //以下、サーチバー関連
@@ -171,7 +170,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //検索機能の追加
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        let postsRef = Firestore.firestore().collection("posts")
         //サーチテキストが空欄なら、検索結果に全て表示
         if searchText == "" {
            listener = postsRef.order(by: "date", descending: true).addSnapshotListener(){ (querySnapshot, error) in
@@ -206,13 +204,3 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
 }
-
-/*
- // MARK: - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
- // Get the new view controller using segue.destination.
- // Pass the selected object to the new view controller.
- }
- */

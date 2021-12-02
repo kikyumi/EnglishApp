@@ -15,6 +15,8 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var memoText: UITextView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var weblioBtn: UIButton!
+    @IBOutlet weak var deleteBtn: UIButton!
+    
     
     //画面遷移時に値を受け取る箱を用意
     var titleRecieved = ""
@@ -38,13 +40,42 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         titleText.text = titleRecieved
         memoText.text = memoRecieved
         if idRecieved != nil{
+            //編集画面の場合
             let postRefRecieved = Firestore.firestore().collection("posts").document(idRecieved!)
             let imageRef = Storage.storage().reference().child("images").child(postRefRecieved.documentID + ".jpg")
             imageView.sd_setImage(with: imageRef)
+        }else{
+            //新規作成画面の場合
+            deleteBtn.isHidden = true
         }
     }
     
-    
+    @IBAction func deleteBtnClick(_ sender: Any) {
+        // データベースから削除する
+        //削除する対象を定義
+        let deleteRef = Firestore.firestore().collection("posts").document(idRecieved!)
+        let deleteImageRef = Storage.storage().reference().child("images").child(deleteRef.documentID + ".jpg")
+        
+        deleteRef.delete() { err in
+            if let err = err {
+                print("DEBUG_PRINT:Documentの削除に失敗しました: \(err)")
+            } else {
+                print("DEBUG_PRINT:Documentの削除に成功しました")
+            }
+        }
+        
+        //画像があれば、Strageから画像を削除する
+        if deleteImageRef != nil{
+            deleteImageRef.delete { error in
+                if let error = error {
+                    print("DEBUG_PRINT:Storageから画像削除に失敗しました: \(error)")
+                } else {
+                    print("DEBUG_PRINT:Storageから画像削除に成功しました")
+                }
+            }
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
     
     
     //weblioボタンのクリック
@@ -111,9 +142,9 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             "date": FieldValue.serverTimestamp(),
         ] as [String : Any]
         
-        //■【新規作成】postRef以下に、該当するid(画面遷移で渡されたidRecieved)のドキュメントがない場合
+        //■【新規投稿】postRef以下に、該当するid(画面遷移で渡されたidRecieved)のdocumentがない場合
         if idRecieved == nil{
-            //画像があれば、Strageに保存する
+            //▼画像がある場合… Storageに画像保存 ＆ Firestoreにデータ保存
             if imageView.image != nil{
                 // 画像をJPEG形式に変換する
                 let imageData = imageView.image?.jpegData(compressionQuality: 0.75)
@@ -133,14 +164,26 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                         self.dismiss(animated: true, completion: nil)
                         return
                     }
-                    print("DEBUG_PRINT:Storageへ画像保存に成功しました")
+                    // FireStoreにデータを保存する
+                    self.postRef.setData(postDic)
+                    print("DEBUG_PRINT:Storage保存とFirestore保存に成功")
+                    // HUDで投稿完了を表示する
+                    SVProgressHUD.showSuccess(withStatus: "保存しました")
+                    // 投稿処理が完了したので先頭画面に戻る
+                    self.dismiss(animated: true, completion: nil)
                 }
+            }else{
+                //▼画像がない場合… FireStoreにのみデータ保存
+                postRef.setData(postDic)
+                print("DEBUG_PRINT:Firestore保存に成功")
+                // HUDで投稿完了を表示する
+                SVProgressHUD.showSuccess(withStatus: "保存しました")
+                // 投稿処理が完了したので先頭画面に戻る
+                self.dismiss(animated: true, completion: nil)
             }
-            // FireStoreにデータを保存する
-            postRef.setData(postDic)
         }else{
-            //■【上書き更新】postRef以下に、該当するid(画面遷移で渡されたidRecieved)のドキュメントがある場合
-            //画像があれば、Strageを更新する
+        //■【上書き更新】postRef以下に、該当するid(画面遷移で渡されたidRecieved)のdocumentがある場合
+            //▼画像がある場合… Storageに画像保存 ＆ Firestoreにデータ保存
             if imageView.image != nil{
                 // 画像をJPEG形式に変換する
                 let imageData = imageView.image?.jpegData(compressionQuality: 0.75)
@@ -161,16 +204,26 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                         self.dismiss(animated: true, completion: nil)
                         return
                     }
-                    print("DEBUG_PRINT:Storageへ画像更新に成功しました")
+                    // FireStoreにデータを保存する
+                    Firestore.firestore().collection("posts").document(self.idRecieved!).updateData(postDic)
+                    print("DEBUG_PRINT:Storage更新とFirestore更新に成功")
+                    // HUDで投稿完了を表示する
+                    SVProgressHUD.showSuccess(withStatus: "保存しました")
+                    // 投稿処理が完了したので先頭画面に戻る
+                    self.dismiss(animated: true, completion: nil)
                 }
+            }else{
+             //▼画像がない場合… FireStoreにのみデータ保存
+                Firestore.firestore().collection("posts").document(self.idRecieved!).updateData(postDic)
+                print("DEBUG_PRINT:Firestore更新に成功")
+                // HUDで投稿完了を表示する
+                SVProgressHUD.showSuccess(withStatus: "保存しました")
+                // 投稿処理が完了したので先頭画面に戻る
+                self.dismiss(animated: true, completion: nil)
             }
-            // FireStoreにデータを保存する
-            Firestore.firestore().collection("posts").document(self.idRecieved!).updateData(postDic)
+            
         }
-        // HUDで投稿完了を表示する
-        SVProgressHUD.showSuccess(withStatus: "保存しました")
-        // 投稿処理が完了したので先頭画面に戻る
-        self.dismiss(animated: true, completion: nil)
+        
     }
     
 }

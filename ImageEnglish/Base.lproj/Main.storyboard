@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="x2s-CC-RHv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="r0i-tZ-R9x">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gsh-Wh-mWw">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="MLS-cb-cAi" customClass="MyTableViewCell" customModule="ImageEnglish" customModuleProvider="target">
@@ -72,7 +72,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5Gr-V4-SiB">
                                 <rect key="frame" x="198" y="437" width="18" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.40605313990000003" green="0.7754619532" blue="0.80360838869999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.39265000820000001" green="0.7097555995" blue="0.73812299969999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="plus" catalog="system">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -92,7 +92,9 @@
                             <constraint firstItem="gsh-Wh-mWw" firstAttribute="leading" secondItem="HQK-5t-bgt" secondAttribute="leading" id="aUX-1D-8Gk"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="sdu-uu-PsM"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addBtn" destination="5Gr-V4-SiB" id="pyQ-tr-KNP"/>
                         <outlet property="tableView" destination="gsh-Wh-mWw" id="eYR-nA-7oK"/>
@@ -101,7 +103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JDz-rT-Dd0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1842.0289855072465" y="75.669642857142847"/>
+            <point key="canvasLocation" x="2752.1739130434785" y="75.669642857142847"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="ZNC-xC-JrF">
@@ -117,10 +119,10 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZY-q8-zPq">
-                                <rect key="frame" x="133.5" y="182" width="147" height="42"/>
-                                <color key="backgroundColor" red="0.40605313993453962" green="0.77546195318222755" blue="0.80360838869062845" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="133.5" y="182" width="147" height="46"/>
+                                <color key="backgroundColor" red="0.39265000820000001" green="0.7097555995" blue="0.73812299969999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="12" maxX="10" maxY="12"/>
                                 <state key="normal" title="weblioを検索" image="magnifyingglass" catalog="system">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -129,7 +131,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="memoを入力" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZJe-0B-38S">
-                                <rect key="frame" x="20" y="254" width="374" height="200"/>
+                                <rect key="frame" x="20" y="258" width="374" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="waJ-hB-OvN"/>
@@ -139,20 +141,20 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="trL-f6-MwZ">
-                                <rect key="frame" x="20" y="514" width="169" height="42"/>
-                                <color key="backgroundColor" red="0.40605313990000003" green="0.7754619532" blue="0.80360838869999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="20" y="518" width="169" height="46"/>
+                                <color key="backgroundColor" red="0.39265000820000001" green="0.7097555995" blue="0.73812299969999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="12" maxX="10" maxY="12"/>
                                 <state key="normal" title="イメージを検索" image="magnifyingglass" catalog="system"/>
                                 <connections>
                                     <action selector="imgSearchClick:" destination="Bbe-D2-Iv0" eventType="touchUpInside" id="F0h-c9-hL7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQo-Lr-U9q">
-                                <rect key="frame" x="221" y="514" width="173" height="42"/>
-                                <color key="backgroundColor" red="0.40605313990000003" green="0.7754619532" blue="0.80360838869999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="221" y="518" width="173" height="46"/>
+                                <color key="backgroundColor" red="0.39265000820000001" green="0.7097555995" blue="0.73812299969999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="12" maxX="10" maxY="12"/>
                                 <state key="normal" title="イメージを追加" image="photo" catalog="system">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -161,17 +163,28 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KNJ-TG-clc">
-                                <rect key="frame" x="20" y="576" width="374" height="200"/>
+                                <rect key="frame" x="20" y="584" width="374" height="150"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="KH5-xK-WDt"/>
+                                    <constraint firstAttribute="height" constant="150" id="KH5-xK-WDt"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gMb-IZ-gG4">
+                                <rect key="frame" x="178.5" y="794" width="57" height="22"/>
+                                <color key="tintColor" systemColor="systemPinkColor"/>
+                                <state key="normal" title="削除" image="trash.fill" catalog="system">
+                                    <color key="titleColor" systemColor="systemPinkColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteBtnClick:" destination="Bbe-D2-Iv0" eventType="touchUpInside" id="BuW-YV-MQK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cfN-9J-GHu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ZJe-0B-38S" firstAttribute="top" secondItem="EZY-q8-zPq" secondAttribute="bottom" constant="30" id="Aqj-lk-txD"/>
                             <constraint firstItem="cfN-9J-GHu" firstAttribute="trailing" secondItem="xQo-Lr-U9q" secondAttribute="trailing" constant="20" id="IQm-FS-Cqr"/>
+                            <constraint firstItem="gMb-IZ-gG4" firstAttribute="top" secondItem="KNJ-TG-clc" secondAttribute="bottom" constant="60" id="Lcj-8W-MIk"/>
                             <constraint firstItem="trL-f6-MwZ" firstAttribute="baseline" secondItem="xQo-Lr-U9q" secondAttribute="baseline" id="PzR-pY-ab0"/>
                             <constraint firstItem="ZJe-0B-38S" firstAttribute="leading" secondItem="cfN-9J-GHu" secondAttribute="leading" constant="20" id="SPK-bI-8Zr"/>
                             <constraint firstItem="ZJe-0B-38S" firstAttribute="centerX" secondItem="c7e-C5-DLH" secondAttribute="centerX" id="UrT-sE-9sj"/>
@@ -184,6 +197,7 @@
                             <constraint firstItem="cfN-9J-GHu" firstAttribute="trailing" secondItem="KNJ-TG-clc" secondAttribute="trailing" constant="20" id="f3A-Gl-FF0"/>
                             <constraint firstItem="EZY-q8-zPq" firstAttribute="centerX" secondItem="c7e-C5-DLH" secondAttribute="centerX" id="j9g-t6-idS"/>
                             <constraint firstItem="xQo-Lr-U9q" firstAttribute="top" secondItem="ZJe-0B-38S" secondAttribute="bottom" constant="60" id="jvn-zN-ejV"/>
+                            <constraint firstItem="gMb-IZ-gG4" firstAttribute="centerX" secondItem="KNJ-TG-clc" secondAttribute="centerX" id="kFV-Gm-lK2"/>
                             <constraint firstItem="EZY-q8-zPq" firstAttribute="top" secondItem="y6f-P0-pCW" secondAttribute="bottom" constant="30" id="mdW-MJ-ZGU"/>
                             <constraint firstItem="KNJ-TG-clc" firstAttribute="leading" secondItem="cfN-9J-GHu" secondAttribute="leading" constant="20" id="rhA-3f-kLO"/>
                             <constraint firstItem="KNJ-TG-clc" firstAttribute="top" secondItem="trL-f6-MwZ" secondAttribute="bottom" constant="20" id="xsL-3h-JnT"/>
@@ -197,6 +211,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteBtn" destination="gMb-IZ-gG4" id="DhJ-yG-dFI"/>
                         <outlet property="imageView" destination="KNJ-TG-clc" id="bPp-Yo-PuG"/>
                         <outlet property="memoText" destination="ZJe-0B-38S" id="hj8-1y-OqP"/>
                         <outlet property="titleText" destination="y6f-P0-pCW" id="mXh-9d-dzs"/>
@@ -205,7 +220,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W33-1Q-JR8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2744.9275362318845" y="75.669642857142847"/>
+            <point key="canvasLocation" x="3655.0724637681164" y="75.669642857142847"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="V7i-JO-65m">
@@ -238,22 +253,38 @@
             <point key="canvasLocation" x="1842" y="894"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="Zbn-z6-sX0">
+        <scene sceneID="vPk-Qo-ORw">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="x2s-CC-RHv" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="r0i-tZ-R9x" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="P16-hL-e12">
+                    <navigationItem key="navigationItem" id="YZ8-7g-DqI"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nt2-1m-PF3">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="qvf-IE-1fw" kind="relationship" relationship="rootViewController" id="3lk-xz-xbB"/>
+                        <segue destination="qvf-IE-1fw" kind="relationship" relationship="rootViewController" id="LU9-lD-X2d"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VQW-vA-8Nx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NWy-Ba-1nh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="932" y="76"/>
+            <point key="canvasLocation" x="1842.0289855072465" y="75.669642857142847"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="TWc-hr-ylb">
+            <objects>
+                <viewController id="jPB-P2-jCV" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VTI-9U-iQ8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="czw-p8-60W"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7AA-bc-G30" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2752" y="775"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -263,11 +294,15 @@
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="photo" catalog="system" width="128" height="93"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="trash.fill" catalog="system" width="121" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
