@@ -16,6 +16,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func addBtnClick(_ sender: Any) {
     }
     
+    //ハンバーガーボタン
+    @IBAction func sideBtnClick(_ sender: Any) {
+    }
+    
+    
     // 投稿データを格納する配列
     var postArray: [PostData] = []
     // Firestoreのリスナー
@@ -36,7 +41,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         addBtn.layer.cornerRadius = 30
     }
     
-    
     //Home画面が表示されるたびに毎回呼ばれる
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -52,11 +56,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }else{
             //currentUserが存在する場合（＝ログイン済みの場合）、listenerを登録して投稿データの更新を監視する
-            listener = postsRef.order(by: "date", descending: true).addSnapshotListener() { (querySnapshot, error) in
+            listener = postsRef
+                .whereField("isArchived", isNotEqualTo: true)
+ //               .order(by: "date", descending: true)
+                .addSnapshotListener() { (querySnapshot, error) in
                 if let error = error {
                     print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
                     return
                 }
+//            postsRef.whereField("isArchived", in: [false]).getDocuments{ (querySnapshot, error) in
+//                if let error = error {
+//                    print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
+//                    return
+//                }
+
                 // 取得したdocumentをもとにPostDataを作成し、postArrayの配列にする
                 self.postArray = querySnapshot!.documents.map { document in
                     print("DEBUG_PRINT: document取得 \(document.documentID)")
@@ -96,8 +109,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // segueで画面遷移する時に呼ばれる
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        let registerViewController:RegisterViewController = segue.destination as! RegisterViewController
         if segue.identifier == "cellSegue" {
+            let registerViewController:RegisterViewController = segue.destination as! RegisterViewController
             let indexPath = self.tableView.indexPathForSelectedRow
             registerViewController.titleRecieved = postArray[indexPath!.row].title!
             registerViewController.memoRecieved = postArray[indexPath!.row].memo!
@@ -172,7 +185,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
         //サーチテキストが空欄なら、検索結果に全て表示
         if searchText == "" {
-           listener = postsRef.order(by: "date", descending: true).addSnapshotListener(){ (querySnapshot, error) in
+           listener = postsRef
+            .whereField("isArchived", isNotEqualTo: true)
+//            .order(by: "date", descending: true)
+            .addSnapshotListener(){ (querySnapshot, error) in
                 if let error = error {
                     print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
                     return

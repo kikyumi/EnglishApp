@@ -1,13 +1,13 @@
 //
-//  SideMenuViewController.swift
+//  SideMenuNavigationController.swift
 //  ImageEnglish
 //
-//  Created by 菊川 由美 on 2021/12/02.
+//  Created by 菊川 由美 on 2021/12/03.
 //
 
 import UIKit
 
-class SideMenuViewController: UIViewController {
+class SideMenuNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

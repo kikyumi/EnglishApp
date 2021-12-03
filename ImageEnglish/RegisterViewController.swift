@@ -140,6 +140,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             "title": self.titleText.text!,
             "memo": self.memoText.text!,
             "date": FieldValue.serverTimestamp(),
+            "isArchived": false
         ] as [String : Any]
         
         //■【新規投稿】postRef以下に、該当するid(画面遷移で渡されたidRecieved)のdocumentがない場合
