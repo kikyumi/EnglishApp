@@ -11,7 +11,7 @@
         <!--Home View Controller-->
         <scene sceneID="afj-BK-c0r">
             <objects>
-                <viewController storyboardIdentifier="Home" id="qvf-IE-1fw" customClass="HomeViewController" customModule="ImageEnglish" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Home" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qvf-IE-1fw" customClass="HomeViewController" customModule="ImageEnglish" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vi4-oK-CSj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -339,8 +339,29 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="EeM-El-2T0" imageView="xtd-5K-DTG" style="IBUITableViewCellStyleDefault" id="9eg-LM-c4t">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="mDd-2B-yhu" imageView="Qez-OP-H4D" style="IBUITableViewCellStyleDefault" id="feH-fs-JZ9">
                                         <rect key="frame" x="0.0" y="230" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="feH-fs-JZ9" id="fIW-jg-PaK">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="シェアする" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mDd-2B-yhu">
+                                                    <rect key="frame" x="55.75" y="0.0" width="338.25" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="arrowshape.turn.up.left" catalog="system" id="Qez-OP-H4D">
+                                                    <rect key="frame" x="19.75" y="12.5" width="21" height="17.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="EeM-El-2T0" imageView="xtd-5K-DTG" style="IBUITableViewCellStyleDefault" id="9eg-LM-c4t">
+                                        <rect key="frame" x="0.0" y="273.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9eg-LM-c4t" id="VMJ-2y-iww">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -361,7 +382,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="vkM-6N-MTa" imageView="1l8-7X-tz4" style="IBUITableViewCellStyleDefault" id="bIv-OD-uNs">
-                                        <rect key="frame" x="0.0" y="273.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="317" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bIv-OD-uNs" id="RBe-QZ-7lf">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -443,6 +464,7 @@
     <resources>
         <image name="archivebox" catalog="system" width="128" height="106"/>
         <image name="archivebox.fill" catalog="system" width="128" height="106"/>
+        <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="hamburger" width="128" height="128"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>

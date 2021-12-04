@@ -37,3 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+class GlobalVar {
+    private init() {}
+    static let shared = GlobalVar()
+    //最初にテーブルビューから除外したいisArchivedの値（最初はtrueを除外）
+    var archiveBool: Bool = true
+}

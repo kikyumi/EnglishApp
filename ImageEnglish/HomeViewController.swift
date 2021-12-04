@@ -15,11 +15,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var addBtn: UIButton!
     @IBAction func addBtnClick(_ sender: Any) {
     }
-    
     //ハンバーガーボタン
     @IBAction func sideBtnClick(_ sender: Any) {
     }
-    
     
     // 投稿データを格納する配列
     var postArray: [PostData] = []
@@ -28,11 +26,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     //Firestoreの投稿データの格納場所
     let postsRef = Firestore.firestore().collection("posts")
     
+    
+    //アプリ起動時に呼ばれる
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         setupSearchBar()
+        
+        GlobalVar.shared.archiveBool = true
         //addボタンの見た目
         let screenSize = UIScreen.main.bounds
         let screenWidth = screenSize.width
@@ -43,7 +45,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Home画面が表示されるたびに毎回呼ばれる
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         print("DEBUG_PRINT: viewWillAppear")
         // currentUserがnilならログインしていない
         if Auth.auth().currentUser == nil {
@@ -55,33 +57,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print(user.uid)
             }
         }else{
+            
             //currentUserが存在する場合（＝ログイン済みの場合）、listenerを登録して投稿データの更新を監視する
+            print("DEBUG_PRINT:\(GlobalVar.shared.archiveBool)を入力 ")
             listener = postsRef
-                .whereField("isArchived", isNotEqualTo: true)
- //               .order(by: "date", descending: true)
+                .whereField("isArchived", isNotEqualTo: GlobalVar.shared.archiveBool)
+                //               .order(by: "date", descending: true)
                 .addSnapshotListener() { (querySnapshot, error) in
-                if let error = error {
-                    print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
-                    return
+                    if let error = error {
+                        print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
+                        return
+                    }
+                    // 取得したdocumentをもとにPostDataを作成し、postArrayの配列にする
+                    self.postArray = querySnapshot!.documents.map { document in
+                        print("DEBUG_PRINT: document取得 \(document.documentID)")
+                        let postData = PostData(document: document)
+                        return postData
+                    }
+                    // TableViewの表示を更新する
+                    self.tableView.reloadData()
                 }
-//            postsRef.whereField("isArchived", in: [false]).getDocuments{ (querySnapshot, error) in
-//                if let error = error {
-//                    print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
-//                    return
-//                }
-
-                // 取得したdocumentをもとにPostDataを作成し、postArrayの配列にする
-                self.postArray = querySnapshot!.documents.map { document in
-                    print("DEBUG_PRINT: document取得 \(document.documentID)")
-                    let postData = PostData(document: document)
-                    return postData
-                }
-                // TableViewの表示を更新する
-                self.tableView.reloadData()
-            }
         }
     }
-    //Home画面が閉じるときに毎回呼ばれる
+    //Home画面を閉じるときに毎回呼ばれる
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         print("DEBUG_PRINT: viewWillDisappear")
@@ -115,40 +113,35 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             registerViewController.titleRecieved = postArray[indexPath!.row].title!
             registerViewController.memoRecieved = postArray[indexPath!.row].memo!
             registerViewController.idRecieved = postArray[indexPath!.row].id
-            
         }
     }
-    
-    
-    
     
     // セルが削除不可能なことを伝えるメソッド
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath)-> UITableViewCell.EditingStyle {
         return .none
     }
     
-    
     //セルのスワイプ時に呼ばれるメソッド（アーカイブ用）
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         // 編集処理
-            let archiveAction = UIContextualAction(style: .normal, title: "覚えた") { (action, view, completionHandler) in
-              // 編集処理を記述
-                let postData = self.postArray[indexPath.row]
-                var updateValue: Bool
-                //まだアーカイブされてなければ、isArchivedをtrueにする
-                if postData.isArchived == false {
-                    updateValue = true
-                    print("アーカイブをtrueに")
-                }else{
-                    //既にアーカイブされていたら、isArchivedをfalseにする
-                    updateValue = false
-                    print("アーカイブをfalseに")
-                }
-               //更新データをFirebaseに書き込む
-                self.postsRef.document(postData.id).updateData(["isArchived": updateValue])
+        let archiveAction = UIContextualAction(style: .normal, title: "覚えた") { (action, view, completionHandler) in
+            // 編集処理を記述
+            let postData = self.postArray[indexPath.row]
+            var updateValue: Bool
+            //まだアーカイブされてなければ、isArchivedをtrueにする
+            if postData.isArchived == false {
+                updateValue = true
+                print("アーカイブをtrueに")
+            }else{
+                //既にアーカイブされていたら、isArchivedをfalseにする
+                updateValue = false
+                print("アーカイブをfalseに")
+            }
+            //更新データをFirebaseに書き込む
+            self.postsRef.document(postData.id).updateData(["isArchived": updateValue])
             // 実行結果に関わらず記述
             completionHandler(true)
-            }
+        }
         //アーカイブボタンの色と画像
         archiveAction.backgroundColor = UIColor.lightGray
         archiveAction.image = UIImage(systemName: "archivebox")
@@ -156,7 +149,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UISwipeActionsConfiguration(actions: [archiveAction])
     }
     
-    //以下、サーチバー関連
+    
+    //---------------------------------------------------------------------------------------
+    //-----------------------------以下、サーチバー関連------------------------------------------
     func setupSearchBar(){
         if let navigationBarFrame = navigationController?.navigationBar.bounds {
             let searchBar: UISearchBar = UISearchBar(frame: navigationBarFrame)
@@ -183,40 +178,43 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //検索機能の追加
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        //サーチテキストが空欄なら、検索結果に全て表示
-        if searchText == "" {
-           listener = postsRef
-            .whereField("isArchived", isNotEqualTo: true)
-//            .order(by: "date", descending: true)
+        
+        listener = postsRef
+            .whereField("isArchived", isNotEqualTo: GlobalVar.shared.archiveBool)
+            //            .order(by: "date", descending: true)
             .addSnapshotListener(){ (querySnapshot, error) in
                 if let error = error {
                     print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
                     return
                 }
-                self.postArray = querySnapshot!.documents.map { document in
-                    let postData = PostData(document: document)
-                    print("DEBUG_PRINT: 文字無しの検索結果を反映しました。")
-                    return postData
-                }
-            self.tableView.reloadData()
-            }
-        }else{
-            //サーチテキストに文字が入力されたら、それを含むpostDataを返す
-            postsRef.whereField("title", in:["\(searchText)"]).getDocuments{ (querySnapshot, error) in
-                if let error = error {
-                    print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
-                    return
-                }else{
-                    print("DEBUG_PRINT: \(querySnapshot!.documents.count)個のドキュメントを取得")
+                //ここから、データ取得成功時の処理
+                //サーチテキストが空欄なら、検索結果に全て表示
+                if searchText == "" {
                     self.postArray = querySnapshot!.documents.map { document in
                         let postData = PostData(document: document)
-                        print("DEBUG_PRINT: 文字ありの検索結果を反映しました。")
+                        print("DEBUG_PRINT: 文字無しの検索結果を反映しました")
                         return postData
                     }
                     self.tableView.reloadData()
                 }
+                else{
+                    //サーチテキストに文字が入力されたら、それを含むpostDataを返す
+                    self.postArray = querySnapshot!.documents.map { document in
+                        let postData = PostData(document: document)
+                        if postData.title?.contains("\(searchText)") == true{
+                            print("DEBUG_PRINT: titleにsearchTextを含むデータがあります")
+                            return postData
+                        }
+                        else{
+                            print("DEBUG_PRINT: titleにsearchTextを含むデータがありません")
+                            return postData
+                        }
+                    }
+                    self.tableView.reloadData()
+                }
             }
-        }
+        
         
     }
 }
+
