@@ -79,7 +79,7 @@
                                 </state>
                                 <connections>
                                     <action selector="addBtnClick:" destination="qvf-IE-1fw" eventType="touchUpInside" id="ipG-H6-ASP"/>
-                                    <segue destination="Bbe-D2-Iv0" kind="show" id="Y4n-9l-uih"/>
+                                    <segue destination="Bbe-D2-Iv0" kind="presentation" id="Y4n-9l-uih"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -107,7 +107,7 @@
                     <connections>
                         <outlet property="addBtn" destination="5Gr-V4-SiB" id="pyQ-tr-KNP"/>
                         <outlet property="tableView" destination="gsh-Wh-mWw" id="eYR-nA-7oK"/>
-                        <segue destination="Bbe-D2-Iv0" kind="show" identifier="cellSegue" id="Iji-xm-1if"/>
+                        <segue destination="Bbe-D2-Iv0" kind="presentation" identifier="cellSegue" id="Iji-xm-1if"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JDz-rT-Dd0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -117,18 +117,18 @@
         <!--Register View Controller-->
         <scene sceneID="ZNC-xC-JrF">
             <objects>
-                <viewController storyboardIdentifier="Register" modalPresentationStyle="fullScreen" id="Bbe-D2-Iv0" customClass="RegisterViewController" customModule="ImageEnglish" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Register" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Bbe-D2-Iv0" customClass="RegisterViewController" customModule="ImageEnglish" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="c7e-C5-DLH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="例：word" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="y6f-P0-pCW">
-                                <rect key="frame" x="20" y="118" width="374" height="34"/>
+                                <rect key="frame" x="20" y="74" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZY-q8-zPq">
-                                <rect key="frame" x="133.5" y="182" width="147" height="46"/>
+                                <rect key="frame" x="133.5" y="138" width="147" height="46"/>
                                 <color key="backgroundColor" red="0.39265000820000001" green="0.7097555995" blue="0.73812299969999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="12" maxX="10" maxY="12"/>
@@ -140,7 +140,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="memoを入力" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZJe-0B-38S">
-                                <rect key="frame" x="20" y="258" width="374" height="200"/>
+                                <rect key="frame" x="20" y="214" width="374" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="waJ-hB-OvN"/>
@@ -150,7 +150,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="trL-f6-MwZ">
-                                <rect key="frame" x="20" y="518" width="169" height="46"/>
+                                <rect key="frame" x="20" y="474" width="169" height="46"/>
                                 <color key="backgroundColor" red="0.39265000820000001" green="0.7097555995" blue="0.73812299969999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="12" maxX="10" maxY="12"/>
@@ -160,7 +160,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQo-Lr-U9q">
-                                <rect key="frame" x="221" y="518" width="173" height="46"/>
+                                <rect key="frame" x="221" y="474" width="173" height="46"/>
                                 <color key="backgroundColor" red="0.39265000820000001" green="0.7097555995" blue="0.73812299969999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="12" maxX="10" maxY="12"/>
@@ -172,13 +172,13 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KNJ-TG-clc">
-                                <rect key="frame" x="20" y="584" width="374" height="150"/>
+                                <rect key="frame" x="20" y="540" width="374" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="KH5-xK-WDt"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gMb-IZ-gG4">
-                                <rect key="frame" x="178.5" y="794" width="57" height="22"/>
+                                <rect key="frame" x="178.5" y="750" width="57" height="22"/>
                                 <color key="tintColor" systemColor="systemPinkColor"/>
                                 <state key="normal" title="削除" image="trash.fill" catalog="system">
                                     <color key="titleColor" systemColor="systemPinkColor"/>
@@ -213,6 +213,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bKp-rc-mdI">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="3sU-gO-1Yf">
+                            <connections>
+                                <action selector="cancelBtn:" destination="Bbe-D2-Iv0" id="rp6-16-ZQI"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="Wgg-OG-nFg">
                             <connections>
                                 <action selector="saveBtnClick:" destination="Bbe-D2-Iv0" id="t0r-dk-z1W"/>
@@ -459,7 +464,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Iji-xm-1if"/>
+        <segue reference="Y4n-9l-uih"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="archivebox" catalog="system" width="128" height="106"/>

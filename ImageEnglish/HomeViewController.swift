@@ -13,7 +13,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     //addボタン
     @IBOutlet weak var addBtn: UIButton!
+    
+    
+    
     @IBAction func addBtnClick(_ sender: Any) {
+        //遷移先にnavigationControllerを表示させる
+        let nextView = self.storyboard?.instantiateViewController(identifier: "Register")
+        let nav = UINavigationController(rootViewController: nextView!)
+        present(nav,animated: true,completion: nil)
     }
     //ハンバーガーボタン
     @IBAction func sideBtnClick(_ sender: Any) {
@@ -113,6 +120,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             registerViewController.titleRecieved = postArray[indexPath!.row].title!
             registerViewController.memoRecieved = postArray[indexPath!.row].memo!
             registerViewController.idRecieved = postArray[indexPath!.row].id
+            //遷移先にnavigationControllerを表示させる
+            let nextView = self.storyboard?.instantiateViewController(identifier: "Register")
+            let nav = UINavigationController(rootViewController: nextView!)
+            present(nav,animated: true,completion: nil)
         }
     }
     
@@ -123,11 +134,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //セルのスワイプ時に呼ばれるメソッド（アーカイブ用）
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
         // 編集処理
         let archiveAction = UIContextualAction(style: .normal, title: "覚えた") { (action, view, completionHandler) in
             // 編集処理を記述
             let postData = self.postArray[indexPath.row]
             var updateValue: Bool
+            
             //まだアーカイブされてなければ、isArchivedをtrueにする
             if postData.isArchived == false {
                 updateValue = true
@@ -143,7 +156,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             completionHandler(true)
         }
         //アーカイブボタンの色と画像
-        archiveAction.backgroundColor = UIColor.lightGray
+        archiveAction.backgroundColor = UIColor.gray
         archiveAction.image = UIImage(systemName: "archivebox")
         // 定義したアクションをセット
         return UISwipeActionsConfiguration(actions: [archiveAction])

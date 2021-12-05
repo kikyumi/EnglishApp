@@ -17,6 +17,9 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var weblioBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
     
+    @IBAction func cancelBtn(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     //画面遷移時に値を受け取る箱を用意
     var titleRecieved = ""
