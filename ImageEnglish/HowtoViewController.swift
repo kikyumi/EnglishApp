@@ -1,13 +1,13 @@
 //
-//  SettingViewController.swift
+//  HowtoViewController.swift
 //  ImageEnglish
 //
-//  Created by 菊川 由美 on 2021/11/25.
+//  Created by 菊川 由美 on 2021/12/05.
 //
 
 import UIKit
 
-class SettingViewController: UIViewController {
+class HowtoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

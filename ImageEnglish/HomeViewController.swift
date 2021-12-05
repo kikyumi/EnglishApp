@@ -13,14 +13,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     //addボタン
     @IBOutlet weak var addBtn: UIButton!
-    
-    
-    
     @IBAction func addBtnClick(_ sender: Any) {
-        //遷移先にnavigationControllerを表示させる
-        let nextView = self.storyboard?.instantiateViewController(identifier: "Register")
-        let nav = UINavigationController(rootViewController: nextView!)
-        present(nav,animated: true,completion: nil)
     }
     //ハンバーガーボタン
     @IBAction func sideBtnClick(_ sender: Any) {
@@ -56,7 +49,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("DEBUG_PRINT: viewWillAppear")
         // currentUserがnilならログインしていない
         if Auth.auth().currentUser == nil {
-            // ログインしていないときの処理（匿名認証でユーザーidを発行）
+            //ログインしていないときの処理（匿名認証でユーザーidを発行）
             Auth.auth().signInAnonymously() { authResult, error in
                 guard let user = authResult?.user else {
                     return
@@ -64,26 +57,46 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print(user.uid)
             }
         }else{
-            
-            //currentUserが存在する場合（＝ログイン済みの場合）、listenerを登録して投稿データの更新を監視する
+//            //currentUserが存在する場合（＝ログイン済みの場合）、listenerを登録して投稿データの更新を監視する
             print("DEBUG_PRINT:\(GlobalVar.shared.archiveBool)を入力 ")
-            listener = postsRef
-                .whereField("isArchived", isNotEqualTo: GlobalVar.shared.archiveBool)
-                //               .order(by: "date", descending: true)
-                .addSnapshotListener() { (querySnapshot, error) in
-                    if let error = error {
-                        print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
-                        return
-                    }
-                    // 取得したdocumentをもとにPostDataを作成し、postArrayの配列にする
-                    self.postArray = querySnapshot!.documents.map { document in
-                        print("DEBUG_PRINT: document取得 \(document.documentID)")
-                        let postData = PostData(document: document)
-                        return postData
-                    }
-                    // TableViewの表示を更新する
-                    self.tableView.reloadData()
-                }
+//==============Instagramクローンアプリのコードに書き替え↓==========================================
+            // listener未登録なら、登録してスナップショットを受信する
+                            let postsRef = Firestore.firestore().collection("posts").order(by: "date", descending: true)
+                            listener = postsRef.addSnapshotListener() { (querySnapshot, error) in
+                                if let error = error {
+                                    print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
+                                    return
+                                }
+                                // 取得したdocumentをもとにPostDataを作成し、postArrayの配列にする。
+                                self.postArray = querySnapshot!.documents.map { document in
+                                    print("DEBUG_PRINT: document取得 \(document.documentID)")
+                                    let postData = PostData(document: document)
+                                    return postData
+                                }
+                                // TableViewの表示を更新する
+                                self.tableView.reloadData()
+                            }
+//============================↑ここまで↑================================================================
+//============================.whereFieldでフィルタリングの場合↓==========================================
+//            listener = postsRef
+//                .whereField("isArchived", isNotEqualTo: GlobalVar.shared.archiveBool)
+//                //               .order(by: "date", descending: true)
+//                .addSnapshotListener() { (querySnapshot, error) in
+//                    if let error = error {
+//                        print("DEBUG_PRINT: snapshotの取得が失敗しました。 \(error)")
+//                        return
+//                    }
+//                    // 取得したdocumentをもとにPostDataを作成し、postArrayの配列にする
+//                    self.postArray = querySnapshot!.documents.map { document in
+//                        print("DEBUG_PRINT: document取得 \(document.documentID)")
+//                        let postData = PostData(document: document)
+//                        return postData
+//                    }
+//                    // TableViewの表示を更新する
+//                    self.tableView.reloadData()
+//                }
+//==========================================ここまで=================================================
+            
         }
     }
     //Home画面を閉じるときに毎回呼ばれる
@@ -120,10 +133,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             registerViewController.titleRecieved = postArray[indexPath!.row].title!
             registerViewController.memoRecieved = postArray[indexPath!.row].memo!
             registerViewController.idRecieved = postArray[indexPath!.row].id
-            //遷移先にnavigationControllerを表示させる
-            let nextView = self.storyboard?.instantiateViewController(identifier: "Register")
-            let nav = UINavigationController(rootViewController: nextView!)
-            present(nav,animated: true,completion: nil)
         }
     }
     

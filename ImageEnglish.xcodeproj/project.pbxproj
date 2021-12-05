@@ -16,10 +16,11 @@
 		127A3498274F9496005528D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 127A3496274F9496005528D7 /* LaunchScreen.storyboard */; };
 		127A34A2274F9644005528D7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127A34A1274F9644005528D7 /* RegisterViewController.swift */; };
 		127A34A4274F976E005528D7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127A34A3274F976E005528D7 /* LoginViewController.swift */; };
-		127A34A6274F977D005528D7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127A34A5274F977D005528D7 /* SettingViewController.swift */; };
 		127A34A8274F97B8005528D7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127A34A7274F97B8005528D7 /* HomeViewController.swift */; };
 		12838C4127538A69009260BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 12838C4027538A69009260BF /* GoogleService-Info.plist */; };
 		12838C43275393BE009260BF /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12838C42275393BE009260BF /* PostData.swift */; };
+		12F0B59D275CB8ED004A1583 /* HowtoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0B59C275CB8ED004A1583 /* HowtoViewController.swift */; };
+		12F0B59F275CD8E5004A1583 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0B59E275CD8E5004A1583 /* LogoutViewController.swift */; };
 		12FD0F54274FC66600937D91 /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FD0F53274FC66600937D91 /* MyTableViewCell.swift */; };
 		1762FBA78A99D0FF99F1D76C /* Pods_ImageEnglish.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD2F192FB7A4AF81D0FEA9EE /* Pods_ImageEnglish.framework */; };
 /* End PBXBuildFile section */
@@ -36,10 +37,11 @@
 		127A3499274F9496005528D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		127A34A1274F9644005528D7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		127A34A3274F976E005528D7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		127A34A5274F977D005528D7 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		127A34A7274F97B8005528D7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		12838C4027538A69009260BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		12838C42275393BE009260BF /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
+		12F0B59C275CB8ED004A1583 /* HowtoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowtoViewController.swift; sourceTree = "<group>"; };
+		12F0B59E275CD8E5004A1583 /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
 		12FD0F53274FC66600937D91 /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 		C573728B3900303D469AB468 /* Pods-ImageEnglish.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageEnglish.release.xcconfig"; path = "Target Support Files/Pods-ImageEnglish/Pods-ImageEnglish.release.xcconfig"; sourceTree = "<group>"; };
 		FD2F192FB7A4AF81D0FEA9EE /* Pods_ImageEnglish.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageEnglish.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,12 +88,13 @@
 				12FD0F53274FC66600937D91 /* MyTableViewCell.swift */,
 				127A34A1274F9644005528D7 /* RegisterViewController.swift */,
 				127A3491274F9492005528D7 /* Main.storyboard */,
-				125CDF9F2759CD4400291877 /* SideMenuNavigationController.swift */,
 				125CDFA1275A047E00291877 /* SideMenuTableViewController.swift */,
+				125CDF9F2759CD4400291877 /* SideMenuNavigationController.swift */,
 				127A3494274F9496005528D7 /* Assets.xcassets */,
 				127A3496274F9496005528D7 /* LaunchScreen.storyboard */,
 				127A34A3274F976E005528D7 /* LoginViewController.swift */,
-				127A34A5274F977D005528D7 /* SettingViewController.swift */,
+				12F0B59E275CD8E5004A1583 /* LogoutViewController.swift */,
+				12F0B59C275CB8ED004A1583 /* HowtoViewController.swift */,
 				127A3499274F9496005528D7 /* Info.plist */,
 				12838C4027538A69009260BF /* GoogleService-Info.plist */,
 			);
@@ -230,15 +233,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12F0B59D275CB8ED004A1583 /* HowtoViewController.swift in Sources */,
 				12FD0F54274FC66600937D91 /* MyTableViewCell.swift in Sources */,
 				12838C43275393BE009260BF /* PostData.swift in Sources */,
 				127A34A2274F9644005528D7 /* RegisterViewController.swift in Sources */,
+				12F0B59F275CD8E5004A1583 /* LogoutViewController.swift in Sources */,
 				125CDFA02759CD4400291877 /* SideMenuNavigationController.swift in Sources */,
 				127A348C274F9492005528D7 /* AppDelegate.swift in Sources */,
 				127A34A4274F976E005528D7 /* LoginViewController.swift in Sources */,
 				127A348E274F9492005528D7 /* SceneDelegate.swift in Sources */,
 				127A34A8274F97B8005528D7 /* HomeViewController.swift in Sources */,
-				127A34A6274F977D005528D7 /* SettingViewController.swift in Sources */,
 				125CDFA2275A047E00291877 /* SideMenuTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

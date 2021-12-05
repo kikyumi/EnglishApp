@@ -17,10 +17,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var weblioBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
     
-    @IBAction func cancelBtn(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     //画面遷移時に値を受け取る箱を用意
     var titleRecieved = ""
     var memoRecieved = ""
@@ -62,8 +58,10 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         deleteRef.delete() { err in
             if let err = err {
                 print("DEBUG_PRINT:Documentの削除に失敗しました: \(err)")
+                SVProgressHUD.showError(withStatus: "削除に失敗しました")
             } else {
                 print("DEBUG_PRINT:Documentの削除に成功しました")
+                SVProgressHUD.showSuccess(withStatus: "削除しました")
             }
         }
         
@@ -77,7 +75,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                 }
             }
         }
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     
@@ -174,7 +172,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                     // HUDで投稿完了を表示する
                     SVProgressHUD.showSuccess(withStatus: "保存しました")
                     // 投稿処理が完了したので先頭画面に戻る
-                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popViewController(animated: true)
                 }
             }else{
                 //▼画像がない場合… FireStoreにのみデータ保存
@@ -183,7 +181,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                 // HUDで投稿完了を表示する
                 SVProgressHUD.showSuccess(withStatus: "保存しました")
                 // 投稿処理が完了したので先頭画面に戻る
-                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popViewController(animated: true)
             }
         }else{
         //■【上書き更新】postRef以下に、該当するid(画面遷移で渡されたidRecieved)のdocumentがある場合
@@ -214,7 +212,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                     // HUDで投稿完了を表示する
                     SVProgressHUD.showSuccess(withStatus: "保存しました")
                     // 投稿処理が完了したので先頭画面に戻る
-                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popViewController(animated: true)
                 }
             }else{
              //▼画像がない場合… FireStoreにのみデータ保存
@@ -223,7 +221,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                 // HUDで投稿完了を表示する
                 SVProgressHUD.showSuccess(withStatus: "保存しました")
                 // 投稿処理が完了したので先頭画面に戻る
-                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popViewController(animated: true)
             }
             
         }

@@ -58,7 +58,7 @@ class SideMenuTableViewController: UITableViewController {
         case 0: // 1つ目のセクション
             return 2
         case 1: // 2つ目のセクション
-            return 4
+            return 5
         default: // ここが実行されることはないはず
             return 0
         }
@@ -90,10 +90,16 @@ class SideMenuTableViewController: UITableViewController {
                 print("シェアをタップ")
             case 2:
                 print("使い方タップ")
-            //performSegue(withIdentifier: "※あとで追加する予定",sender: nil)
+                let howtoView = self.storyboard?.instantiateViewController(withIdentifier: "Howto") as! HomeViewController
+                    self.present(howtoView, animated: true, completion: nil)
             case 3:
-                print("設定タップ")
-            //performSegue(withIdentifier: "※あとで追加する予定",sender: nil)
+                print("アカウント管理タップ")
+                let loginView = self.storyboard?.instantiateViewController(withIdentifier: "Login") as! LoginViewController
+                    self.present(loginView, animated: true, completion: nil)
+            case 4:
+                print("ログイン/ログアウトタップ")
+                let loginView = self.storyboard?.instantiateViewController(withIdentifier: "Logout") as! LogoutViewController
+                    self.present(loginView, animated: true, completion: nil)
             default:
                 return
             }
